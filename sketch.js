@@ -1,12 +1,16 @@
+var canvasX = 1920*.8;
+var canvasY = 1080*.8;
+
 function setup() {
- createCanvas(1920*.8, 1080*.8);
+ createCanvas(canvasX, canvasY);
 }
 
 var x = 50;
 var y = 50;
 var bubbleStartX = 200;
-var bubbleStartY =  0;
+var bubbleStartY =  -100;
 var bubbleArray = [];
+var maxBubbles = 20;
 
 function draw() {
   if (keyIsDown(LEFT_ARROW))
@@ -22,33 +26,27 @@ function draw() {
     y+=5;
 
   background(51);
-  ellipse(x, y, 80, 80);
+  ellipse(x, y, 80);
   //bubbles
   createBubble();
-  bubbleStartY ++;
 
-  createBooble();
-
+  for (var i = 0; i < bubbleArray.length; i++) {
+    bubbleArray[i][1]+= bubbleArray[i][3];
+    if(bubbleArray[i][1] >= canvasY + bubbleArray[i][2]){
+      bubbleArray.splice(i, 1);
+    }
+    showBubbles(bubbleArray[i][0], bubbleArray[i][1], bubbleArray[i][2]);
+  }
 
 }
-
-
 
 var createBubble = function(){
-  fill(255,224,189);
-  ellipse(bubbleStartX, bubbleStartY - 100, 200, 200);
-  fill(243,172,172);
-  ellipse(bubbleStartX - 55, bubbleStartY - 100, 50, 50);
-  fill(153,82,82);
-  ellipse(bubbleStartX - 63, bubbleStartY - 100, 20, 20);
+  if(bubbleArray.length < maxBubbles){
+    var bubble = [random(-100, canvasX), bubbleStartY, random(10, 200), random(5, 20)];
+    bubbleArray.push(bubble);
+  }
 };
 
-var createBooble = function(){
-  fill(255,224,189);
-  ellipse(bubbleStartX + 100, bubbleStartY - 100, 200, 200);
-  fill(243,172,172);
-  ellipse(bubbleStartX + 65, bubbleStartY - 100, 50, 50);
-  fill(153,82,82);
-  ellipse(bubbleStartX + 58, bubbleStartY - 100, 20, 20);
-
-}
+var showBubbles = function(bubblex, bubbley, bubblez){
+  ellipse(bubblex, bubbley, bubblez);
+};
