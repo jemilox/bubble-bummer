@@ -5,12 +5,13 @@ function setup() {
  createCanvas(canvasX, canvasY);
 }
 
-var x = 50;
-var y = 50;
+var x = 500;
+var y = 800;
 var bubbleStartX = 200;
 var bubbleStartY =  -100;
 var bubbleArray = [];
-var maxBubbles = 20;
+var maxBubbles = 15;
+var playerSize = 80;
 
 function draw() {
   if (keyIsDown(LEFT_ARROW))
@@ -26,7 +27,7 @@ function draw() {
     y+=5;
 
   background(51);
-  ellipse(x, y, 80);
+  ellipse(x, y, playerSize);
   //bubbles
   createBubble();
 
@@ -49,4 +50,14 @@ var createBubble = function(){
 
 var showBubbles = function(bubblex, bubbley, bubblez){
   ellipse(bubblex, bubbley, bubblez);
+  collisionCheck(bubblex, bubbley, bubblez);
+};
+
+var collisionCheck = function(bubblex, bubbley, bubblez){
+  var dx = x - bubblex;
+  var dy = y - bubbley;
+  var distance = Math.sqrt(dx*dx + dy*dy);
+  if(distance < playerSize/2 + bubblez/2){
+    noLoop();
+  }
 };
