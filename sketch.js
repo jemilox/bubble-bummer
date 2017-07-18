@@ -26,8 +26,29 @@ function draw() {
   //bubbles
   createBubble();
   bubbleStartY ++;
+
+  createBooble();
+
+
 }
 
+
+
 var createBubble = function(){
+  fill(255,224,189);
   ellipse(bubbleStartX, bubbleStartY - 100, 200, 200);
+  fill(243,172,172);
+  ellipse(bubbleStartX - 55, bubbleStartY - 100, 50, 50);
+  fill(153,82,82);
+  ellipse(bubbleStartX - 63, bubbleStartY - 100, 20, 20);
 };
+
+var createBooble = function(){
+  fill(255,224,189);
+  ellipse(bubbleStartX + 100, bubbleStartY - 100, 200, 200);
+  fill(243,172,172);
+  ellipse(bubbleStartX + 65, bubbleStartY - 100, 50, 50);
+  fill(153,82,82);
+  ellipse(bubbleStartX + 58, bubbleStartY - 100, 20, 20);
+
+}
