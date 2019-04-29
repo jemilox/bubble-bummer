@@ -1,12 +1,30 @@
-#whatwhat {
+#titleText {
+  color: yellow;
+  justify-content: center;
+  font-family: 'Monoton';
+  font-size: 60px;
+  line-height: .1;
+  text-align: center;
+}
+
+#score {
   color: #C6A49A;
+  font-size: 56px;
 }
 
 body {
   display: flex;
   background-color: black;
+  flex-direction: column;
 }
 
-.title {
-  justify-content: center;
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.stats{
+  display: flex;
+  flex-direction: column;
+  padding: 100px;
 }

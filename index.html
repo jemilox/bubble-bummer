@@ -2,18 +2,29 @@
 <html>
   <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
     <script src="lodash.js"></script>
     <script src="sketch.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body>
-    <div class="title">
-      <p id="whatwhat">
-        Bubble Madness
+    <div>
+      <p id="titleText">
+        Bubble Bummer
       </p>
-      <button onClick="startDraw()">
-        START
-      </button>
+    </div>
+    <div class="main">
+      <div class="stats">
+        <button onClick="startDraw()">
+          START
+        </button>
+        <p id="score">
+          0
+        </p>
+      </div>
+      <div id="canvas-holder">
+          <!-- The canvas is diplayed here! -->
+      </div>
     </div>
   </body>
 </html>
