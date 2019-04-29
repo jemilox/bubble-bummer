@@ -26,7 +26,8 @@ function draw() {
   if (keyIsDown(DOWN_ARROW))
     y+=5;
 
-  background(51);
+  background('#C6E5D9');
+  fill('#E94E77');   
   ellipse(x, y, playerSize);
   //bubbles
   createBubble();
@@ -43,12 +44,13 @@ function draw() {
 
 var createBubble = function(){
   if(bubbleArray.length < maxBubbles){
-    var bubble = [random(-100, canvasX), bubbleStartY, random(10, 200), random(5, 20)];
+    var bubble = [random(-100, canvasX), bubbleStartY, random(10, 100), random(5, 10)];
     bubbleArray.push(bubble);
   }
 };
 
 var showBubbles = function(bubblex, bubbley, bubblez){
+  fill('#F4EAD5');
   ellipse(bubblex, bubbley, bubblez);
   collisionCheck(bubblex, bubbley, bubblez);
 };
@@ -58,6 +60,11 @@ var collisionCheck = function(bubblex, bubbley, bubblez){
   var dy = y - bubbley;
   var distance = Math.sqrt(dx*dx + dy*dy);
   if(distance < playerSize/2 + bubblez/2){
+    bubbleArray = [];
     noLoop();
   }
+};
+
+const startDraw = function() {
+  loop();
 };

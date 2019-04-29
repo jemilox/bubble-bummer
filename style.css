@@ -1,0 +1,12 @@
+#whatwhat {
+  color: #C6A49A;
+}
+
+body {
+  display: flex;
+  background-color: black;
+}
+
+.title {
+  justify-content: center;
+}
