@@ -1,37 +1,38 @@
-var canvasX = 1920*.8;
-var canvasY = 1080*.8;
+var canvasX = 1920*.5;
+var canvasY = 1080*.5;
 
 function setup() {
  createCanvas(canvasX, canvasY);
 }
 
-var x = 500;
-var y = 800;
+var playerX = 500;
+var playerY = 400;
 var bubbleStartX = 200;
 var bubbleStartY =  -100;
 var bubbleArray = [];
 var maxBubbles = 15;
 var playerSize = 80;
+var powerUp = {};
 
 function draw() {
   if (keyIsDown(LEFT_ARROW))
-    x-=5;
+    playerX-=5;
 
   if (keyIsDown(RIGHT_ARROW))
-    x+=5;
+    playerX+=5;
 
   if (keyIsDown(UP_ARROW))
-    y-=5;
+    playerY-=5;
 
   if (keyIsDown(DOWN_ARROW))
-    y+=5;
+    playerY+=5;
 
   background('#C6E5D9');
   fill('#E94E77');   
-  ellipse(x, y, playerSize);
+  ellipse(playerX, playerY, playerSize);
   //bubbles
   createBubble();
-
+  createPowerUp();
   for (var i = 0; i < bubbleArray.length; i++) {
     bubbleArray[i][1]+= bubbleArray[i][3];
     if(bubbleArray[i][1] >= canvasY + bubbleArray[i][2]){
@@ -49,6 +50,16 @@ var createBubble = function(){
   }
 };
 
+var createPowerUp = function(){
+  if (_.isEmpty(powerUp)){
+    powerUp = {
+      x: random(50, 910),
+      y: random(50, 490),
+    };
+  }
+  star(powerUp.x, powerUp.y, 50, 40, 40);
+};
+
 var showBubbles = function(bubblex, bubbley, bubblez){
   fill('#F4EAD5');
   ellipse(bubblex, bubbley, bubblez);
@@ -56,8 +67,8 @@ var showBubbles = function(bubblex, bubbley, bubblez){
 };
 
 var collisionCheck = function(bubblex, bubbley, bubblez){
-  var dx = x - bubblex;
-  var dy = y - bubbley;
+  var dx = playerX - bubblex;
+  var dy = playerY - bubbley;
   var distance = Math.sqrt(dx*dx + dy*dy);
   if(distance < playerSize/2 + bubblez/2){
     bubbleArray = [];
@@ -68,3 +79,18 @@ var collisionCheck = function(bubblex, bubbley, bubblez){
 const startDraw = function() {
   loop();
 };
+
+function star(x, y, radius1, radius2, npoints) {
+  let angle = TWO_PI / npoints;
+  let halfAngle = angle / 2.0;
+  beginShape();
+  for (let a = 0; a < TWO_PI; a += angle) {
+    let sx = x + cos(a) * radius2;
+    let sy = y + sin(a) * radius2;
+    vertex(sx, sy);
+    sx = x + cos(a + halfAngle) * radius1;
+    sy = y + sin(a + halfAngle) * radius1;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+}
