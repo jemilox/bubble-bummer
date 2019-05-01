@@ -1,39 +1,50 @@
 'use strict';
 
-var canvasX = 1920* 0.7;
-var canvasY = 1080* 0.7;
+const CANVAS_WIDTH = window.innerWidth * 0.7;
+const CANVAS_HEIGHT = window.innerHeight * 0.7;
+
+const PLAYER_START_X = CANVAS_WIDTH / 2;
+const PLAYER_START_Y = CANVAS_HEIGHT - 50;
 
 function setup() {
-  var canvas = createCanvas(canvasX, canvasY);
+  var canvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
   // placeholder for our canvas in html
   canvas.parent('canvas-holder');
 }
 
-var playerX = canvasX / 2;
-var playerY = canvasY - 50;
-var bubbleStartX = 200;
-var bubbleStartY =  -100;
+var playerX = PLAYER_START_X;
+var playerY = PLAYER_START_Y;
 var bubbleArray = [];
 var maxBubbles = 15;
-var playerSize = 80;
+var playerSize = byHeight(80);
 var powerUp = {};
 var score = 0;
+let highScores = [];
 
 function draw() {
   if (keyIsDown(LEFT_ARROW)) {
-    playerX-=5;
+    if (!(playerX < 0)) {
+      playerX-=5;
+    }
   }
   if (keyIsDown(RIGHT_ARROW)) {
-    playerX+=5;
+    if (!(playerX > CANVAS_WIDTH)) {
+      playerX+=5;
+    }
   }
   if (keyIsDown(UP_ARROW)) {
-    playerY-=5;
+    if (!(playerY < 0)) {
+      playerY-=5;
+    }
   }
   if (keyIsDown(DOWN_ARROW)) {
-    playerY+=5;
+    if (!(playerY > CANVAS_HEIGHT)) {
+      playerY+=5;
+    }
   }
-
+  // background color
   background('#313131');
+  // player color
   fill('#F531FD');
   noStroke();
   ellipse(playerX, playerY, playerSize);
@@ -42,7 +53,7 @@ function draw() {
   createPowerUp();
   for(var i = 0; i < bubbleArray.length; i++) {
     bubbleArray[i][1]+= bubbleArray[i][3];
-    if(bubbleArray[i][1] >= canvasY + bubbleArray[i][2]){
+    if(bubbleArray[i][1] >= CANVAS_HEIGHT + bubbleArray[i][2]){
       bubbleArray.splice(i, 1);
     }
     showBubbles(bubbleArray[i][0], bubbleArray[i][1], bubbleArray[i][2], bubbleArray[i][4]);
@@ -53,7 +64,7 @@ function draw() {
 var createBubble = function(){
   if(bubbleArray.length < maxBubbles){
     const colorRandom = Math.floor(Math.random() * 3) + 1;
-    var bubble = [random(-100, canvasX), bubbleStartY, random(10, 100), random(5, 10), colorRandom];
+    var bubble = [random(-100, CANVAS_WIDTH), -100, random(byHeight(20), byHeight(200)), random(5, 10), colorRandom];
     bubbleArray.push(bubble);
   }
 };
@@ -61,13 +72,13 @@ var createBubble = function(){
 var createPowerUp = function(){
   if (_.isEmpty(powerUp)){
     powerUp = {
-      x: random(50, 1500),
-      y: random(400, 800),
-      size: 80,
+      x: random(50, CANVAS_WIDTH - 50),
+      y: random(400, CANVAS_HEIGHT - 50),
+      size: byHeight(80),
     };
   }
   collisionCheck(powerUp.x, powerUp.y, powerUp.size, false);
-  star(powerUp.x, powerUp.y, powerUp.size, 30, 4);
+  star(powerUp.x, powerUp.y, powerUp.size, byHeight(30), 4);
 };
 
 var showBubbles = function(bubblex, bubbley, bubbleSize, colorRandom){
@@ -93,6 +104,7 @@ var collisionCheck = function(bubblex, bubbley, bubblez, stop){
     if(stop) {
       bubbleArray = [];
       noLoop();
+      
     } else {
       score++;
       document.getElementById('score').innerHTML = score;
@@ -104,8 +116,8 @@ var collisionCheck = function(bubblex, bubbley, bubblez, stop){
 const startDraw = function() {
   score = 0;
   document.getElementById('score').innerHTML = score;
-  playerX = 400;
-  playerY = 500;
+  playerX = PLAYER_START_X;
+  playerY = PLAYER_START_Y;
   loop();
 };
 
